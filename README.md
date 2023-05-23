@@ -1,2 +1,2 @@
-# Official repository for the SemanticSpray dataset
+# Official toolkit for the SemanticSpray dataset
 Coming soon.
