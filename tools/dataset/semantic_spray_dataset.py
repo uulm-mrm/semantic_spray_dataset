@@ -5,11 +5,12 @@ import matplotlib.image as mpimg
 
 
 class SemanticSprayDataset(torch_data.Dataset):
-    def __init__(self, root_path, train=False):
+    def __init__(self, root_path, split="train"):
         # ----- parse input parameters -------
         self.root_path = root_path
         assert os.path.isdir(self.root_path)
-        self.training = train
+        assert split in ["train", "test"]
+        self.training = True if split == "train" else False
 
         self.load_low_resolution_lidars = True
         self.load_radar = True

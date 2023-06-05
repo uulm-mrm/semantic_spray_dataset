@@ -5,7 +5,8 @@ import os
 from pathlib import Path
 from PIL import ImageColor
 
-COLOR_MAP = {0: "#fcba03", 1: "#0388fc", 2: "#fc033d"}  # 0: background, 1: foreground, 2: noise
+COLOR_MAP = {0: "#CFCFCF", 1: "#1B3FAB", 2: "#DC143C"}  # 0: background, 1: foreground, 2: noise
+LABEL_NAME_MAP = {0: "background", 1: "foreground", 2: "noise"} 
 
 
 def hex2rgb(hexcode, normalize=True):
@@ -53,24 +54,31 @@ def draw_scene_3D(points, labels=None, save_fig=True, save_path="../output", fig
 
 def draw_scene_2D(data, save_fig=True, save_path="../output", fig_name="semantic_scene_2d"):
     # ----- params ------
-    x_min, x_max = -25, 25
-    y_min, y_max = -25, 25
+    val = 35
+    x_min, x_max = -val, val
+    y_min, y_max = -val, val
+    point_size = 80
 
     # ----- plot camera image -----
-    fig, axs = plt.subplots(2, 1, figsize=(35, 35))
+    fig, axs = plt.subplots(2, 1, figsize=(30, 30))
     axs[0].imshow(data["camera_image"])
     axs[0].axis("off")
+    axs[0].axis("equal")
+
 
     # ----- plot top mounted LiDAR point cloud and labels -----
     points = data["points"]
     labels = data["labels"]
     colors = map_label_to_color(labels) if labels is not None else points[:, 3]
-    axs[1].scatter(points[:, 1], points[:, 0], c=colors, s=2)  # Note: flip x and y for visualization
+    for label_id in np.unique(labels):
+        mask = labels == label_id
+        axs[1].scatter(points[mask, 1], points[mask, 0], c=colors[mask], s=point_size,label=LABEL_NAME_MAP[label_id])  # Note: flip x and y axis for visualization
     axs[1].axis("equal")
-
-    axs[1] = plt.gca()
+    axs[1].set_yticklabels([])
+    axs[1].set_xticklabels([])
     axs[1].set_xlim([x_min, x_max])
     axs[1].set_ylim([y_min, y_max])
+    axs[1].legend(fontsize=40,markerscale=4,loc="upper right")
 
     fig.tight_layout()
     if not save_fig:
