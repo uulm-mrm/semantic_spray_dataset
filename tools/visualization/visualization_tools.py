@@ -5,6 +5,7 @@ import os
 from pathlib import Path
 from PIL import ImageColor
 import open3d
+import open3d as o3d
 
 COLOR_MAP_2D = {0: "#CFCFCF", 1: "#1B3FAB", 2: "#DC143C"}  # 0: background, 1: foreground, 2: noise
 COLOR_MAP_3D = {0: "#939393", 1: "#1B3FAB", 2: "#DC143C"}  # 0: background, 1: foreground, 2: noise
@@ -37,7 +38,7 @@ def map_label_to_color(labels, plot_type="2D"):
     return label_colors
 
 
-def draw_scene_3D(data):
+def draw_scene_3D_sphere(data):
     points = data["points"]
     labels = data["labels"]
     colors = map_label_to_color(labels, plot_type="3D")
@@ -47,10 +48,18 @@ def draw_scene_3D(data):
     vis.get_render_option().point_size = 3.0
     vis.get_render_option().background_color = hex2rgb("#f6faff")
 
-    pts = open3d.geometry.PointCloud()
-    pts.points = open3d.utility.Vector3dVector(points[:, :3])
-    vis.add_geometry(pts)
-    pts.colors = open3d.utility.Vector3dVector(colors)
+    # pts = open3d.geometry.PointCloud()
+    # pts.points = open3d.utility.Vector3dVector(points[:, :3])
+    # vis.add_geometry(pts)
+    # pts.colors = open3d.utility.Vector3dVector(colors)
+    spheres = []
+    for i in range(len(points)):
+        sphere = o3d.geometry.TriangleMesh.create_sphere(radius=0.1)
+        sphere.translate(points[i, :3])
+        # sphere.paint_uniform_color(point_cloud[i, 3:6] / 255.0)
+        spheres.append(sphere)
+        vis.add_geometry(sphere)
+
 
     vis.run()
     vis.destroy_window()
@@ -87,6 +96,40 @@ def save_scene_3D(data, save_path, camera_settings, scan_id, save=True):
         filename = os.path.join(save_path, scan_id + ".jpg")
         plt.savefig(filename, bbox_inches="tight")
         plt.clf()
+    vis.destroy_window()
+
+
+def draw_scene_3D(data, save=True):
+    points = data["points"]
+    labels = data["labels"]
+    colors = map_label_to_color(labels, plot_type="3D")
+
+    vis = open3d.visualization.Visualizer()
+    vis.create_window(width=1250, height=1000)
+
+    pts = open3d.geometry.PointCloud()
+    pts.points = open3d.utility.Vector3dVector(points[:, :3])
+    vis.add_geometry(pts)
+    pts.colors = open3d.utility.Vector3dVector(colors)
+
+    # assert os.path.isfile(camera_settings)
+    # param = open3d.io.read_pinhole_camera_parameters(camera_settings)
+    # ctr = vis.get_view_control()
+    # ctr.convert_from_pinhole_camera_parameters(param)
+    # vis.poll_events()
+    # vis.update_renderer()
+
+    vis.run()
+    # if save:
+    #     image = vis.capture_screen_float_buffer(True)
+    #     image = np.asarray(image)
+    #     plt.figure(figsize=(100, 100))
+    #     plt.imshow(image)
+    #     plt.axis("off")
+    #     # plt.colorbar()
+    #     filename = os.path.join(save_path, scan_id + ".jpg")
+    #     plt.savefig(filename, bbox_inches="tight")
+    #     plt.clf()
     vis.destroy_window()
 
 
@@ -136,6 +179,6 @@ def visualize_scene(data, plot_type="2D"):
         draw_scene_2D(data)
     elif plot_type == "3D":
         # draw_scene_3D(data)
-        save_scene_3D(data)
+        draw_scene_3D_sphere(data)
     else:
         return NotImplementedError

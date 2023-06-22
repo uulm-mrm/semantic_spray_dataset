@@ -4,16 +4,17 @@ import os
 from tools.dataset.semantic_spray_dataset import SemanticSprayDataset
 from tools.visualization import visualization_tools as vis
 from torch.utils.data import DataLoader
-from tools.visualization import mayavi_vis_utils as V
+from tools.visualization import pyvista_vis as V
+
 
 def visualize_data(dataset, plot):
     for i in range(len(dataset)):
         data = dataset[i]
-        V.draw_semantic_scene(data["points"], pts_labels=data["labels"])
-        
-        print("data", data.keys())
-        input("..")
-        vis.visualize_scene(data, plot_type=plot)
+        scene =  data["metadata"]["scene_path"].split("/")[-2]
+        scan_id = data["metadata"]["scan_id"]
+        save_path = os.path.join("debug",scene)
+        V.plot_semantic_plots(data["points"][:, :3], data["labels"], save_path=save_path, scan_id=scan_id,save=True)
+
 
 def main():
     parser = argparse.ArgumentParser(description="arg parser")
