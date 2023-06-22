@@ -74,6 +74,9 @@ class SemanticSprayDataset(torch_data.Dataset):
         camera_image = mpimg.imread(camera_path)
         data["camera_image"] = camera_image
 
+        # ---------- metadata ----------
+        data["metadata"] = {"scene_path": scene_path, "scan_id": scan_id}
+
         return data
 
     def __len__(self):
