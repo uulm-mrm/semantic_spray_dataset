@@ -30,7 +30,7 @@ This dataset provides semantic labels for a subset of the [Road Spray dataset](h
 
 ___
 ## Getting Started
-- Download the dataset from here. Afterwards, you should have the following files: 
+- Download the dataset from [here](https://oparu.uni-ulm.de/xmlui/handle/123456789/48891). Afterwards, you should have the following files: 
   - `SemanticSprayDataset.zip`
   - `SemanticSprayDataset.z01`
   - `SemanticSprayDataset.z02`
