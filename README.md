@@ -16,6 +16,7 @@
     <img style="width:200px" src="img/teaser_1.gif">  
     <img style="width:200px" src="img/teaser_2.gif">
 </figure>
+</div>
 
 ## Abstract
 <p style="text-align:justify;">
@@ -24,7 +25,7 @@ LiDARs are one of the main sensors used for autonomous driving applications, pro
 <br>
 This dataset provides semantic labels for a subset of the [Road Spray dataset](https://www.fzd-datasets.de/spray/), which contains scenes of vehicles traveling at different speeds on wet surfaces, creating a trailing spray effect. We provide semantic labels for over 200 dynamic scenes, labeling each point in the LiDAR point clouds as background (road, vegetation, buildings, ...), foreground (moving vehicles), and noise (spray, LiDAR artifacts).
 </p>
-</div>
+
 
 
 ___
