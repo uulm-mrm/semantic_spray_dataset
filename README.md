@@ -17,7 +17,6 @@
     <img style="width:200px" src="img/teaser_2.gif">
 </figure>
 
-
 ## Abstract
 <p style="text-align:justify;">
 LiDARs are one of the main sensors used for autonomous driving applications, providing accurate depth estimation regardless of lighting conditions. However, they are severely affected by adverse weather conditions such as rain, snow, and fog.
@@ -26,6 +25,7 @@ LiDARs are one of the main sensors used for autonomous driving applications, pro
 This dataset provides semantic labels for a subset of the [Road Spray dataset](https://www.fzd-datasets.de/spray/), which contains scenes of vehicles traveling at different speeds on wet surfaces, creating a trailing spray effect. We provide semantic labels for over 200 dynamic scenes, labeling each point in the LiDAR point clouds as background (road, vegetation, buildings, ...), foreground (moving vehicles), and noise (spray, LiDAR artifacts).
 </p>
 </div>
+
 
 ___
 ## Getting Started
@@ -47,7 +47,7 @@ ___
     $ unzip SemanticSprayDataset_single_file.zip
     ```
 - The extracted dataset should have a structure like this: 
-  ```
+  ```text
   |--- Crafter_dynamic
   |   |--- 0000_2021-09-08-14-36-56_0
   |   |   |--- image_2
@@ -72,6 +72,14 @@ ___
   |   |   |--- metadata.txt
   |--- Golf_dynamic
   ...
+  ```
+- In order to use the default train/test splits, the `ImageSet` folder should be located in `data/SemanticSprayDataset/ImageSets`. The final dataset structure shold be the following:
+  ```text
+  |--- Crafter_dynamic
+  |--- Golf_dynamic
+  |--- ImageSets
+  |   |--- train.txt
+  |   |--- test.txt
   ```
 
 ## Exploring The Data
@@ -100,6 +108,37 @@ We provide semantic labels for the VLP32C LiDAR scans. The labeled classes and a
   - `Spray and other noise artifacts : 2`
 
 ___
+## Visualizing The Data
+- First create a [conda](https://docs.conda.io/en/latest/miniconda.html) envirement and install the requirements:
+  ```bash
+  conda create -n vis python=3.8
+  conda activate vis
+  pip3 install -r requirements.txt
+  ```
+- To visualize the data in a 2D plot, use:
+  ```bash
+  python3 demo.py --data data/SemanticSprayDataset/ --plot 2D
+  ```
+  <details>
+  <summary>Image result:</summary>
+    <div align="center">
+    <img style="width:350px" src="img/2d_plot.png">  
+    </div>
+  </details>
+
+- To visualize the data in a 3D plot, use:
+  ```bash
+  python3 demo.py --data data/SemanticSprayDataset/ --plot 3D
+  ```
+  <details>
+  <summary>Image result:</summary>
+    <div align="center">
+    <img style="width:350px" src="img/3d_plot.png">  
+    </div>
+  </details>
+
+___
+
 ## Citation 
 If you find this dataset useful in your research, consider citing our work:
 
