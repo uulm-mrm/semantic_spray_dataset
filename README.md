@@ -120,23 +120,18 @@ ___
   ```bash
   python3 demo.py --data data/SemanticSprayDataset/ --plot 2D
   ```
-  <details>
-  <summary>Image result:</summary>
-    <div align="center">
+  <div align="center">
     <img style="width:500px" src="img/2d_plot.png">  
-    </div>
-  </details>
+  </div>
 
 - To visualize the data in a 3D plot, use:
   ```bash
   python3 demo.py --data data/SemanticSprayDataset/ --plot 3D
   ```
-  <details>
-  <summary>Image result:</summary>
-    <div align="center">
+  <div align="center">
     <img style="width:500px" src="img/3d_plot.png">  
-    </div>
-  </details>
+ </div>
+
 
 ___
 
