@@ -12,9 +12,9 @@
 
 <div align="center">
 <figure class="half" style="display:flex">
-    <img style="width:200px" src="img/teaser_0.gif">  
-    <img style="width:200px" src="img/teaser_1.gif">  
-    <img style="width:200px" src="img/teaser_2.gif">
+    <img style="width:300px" src="img/teaser_0.gif">  
+    <img style="width:300px" src="img/teaser_1.gif">  
+    <img style="width:300px" src="img/teaser_2.gif">
 </figure>
 </div>
 
@@ -84,10 +84,10 @@ ___
   ```
 
 ## Exploring The Data
- The sensor setup used for the recordings is the following:
+ The sensor setup used for the recordings is the [following](https://www.fzd-datasets.de/spray/):
 
   - 1 Front Camera
-  - 1 Velodyne VLP32C LiDAR (top mounted high-resolution LiDAR)
+  - 1 Velodyne VLP32C LiDAR (top-mounted high-resolution LiDAR)
   - 2 Ibeo LUX 2010 LiDAR (front and rear mounted, l.- w-resolution LiDAR)
   - 1 Aptiv ESR 2.5 Radar
 
@@ -156,7 +156,7 @@ pages={4322-4329},
 doi={10.1109/LRA.2023.3282382}}
 ```
 
-Additionally, considere citing the original Road Spray dataset: 
+Additionally, consider citing the original Road Spray dataset: 
 
 ```
 @misc{https://tudatalib.ulb.tu-darmstadt.de/handle/tudatalib/3537,
