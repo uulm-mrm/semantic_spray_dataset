@@ -40,9 +40,14 @@ def draw_scene_2D(data, save_fig=True, save_path="../output", fig_name="semantic
     point_size = 3
 
     # ----- plot camera image -----
-    fig, axs = plt.subplots(3, 1, figsize=(8, 12))
+    fig, axs = plt.subplots(3, 1, figsize=(10, 15))
+    metadata = data["infos"]["metadata"]
+    fig.suptitle(
+        "object velocity: %s km/h, ego velocity: %s km/h, distance to object: %s m"
+        % (metadata["object_velocity"], metadata["ego_velocity"], metadata["distance_to_object"]),
+        fontsize=12,
+    )
     axs[0].imshow(data["camera_image"])
-    axs[0].set_title("Camera Image")
     axs[0].axis("off")
     axs[0].axis("equal")
 
@@ -57,8 +62,8 @@ def draw_scene_2D(data, save_fig=True, save_path="../output", fig_name="semantic
         )  # Note: flip x and y axis for visualization
     axs[1].set_title("Semantic Labels (top-mounted LiDAR)")
     axs[1].axis("equal")
-    axs[1].set_yticklabels([])
-    axs[1].set_xticklabels([])
+    axs[1].set_xticks([])
+    axs[1].set_yticks([])
     axs[1].set_xlim([x_min, x_max])
     axs[1].set_ylim([y_min, y_max])
     axs[1].legend(fontsize=10, markerscale=4, loc="upper right")
@@ -75,14 +80,12 @@ def draw_scene_2D(data, save_fig=True, save_path="../output", fig_name="semantic
     axs[2].scatter(
         ibeo_rear[:, 1], ibeo_rear[:, 0], c="green", marker="o", s=point_size * 2, label="low-res rear LiDAR"
     )
-    axs[2].scatter(
-        radar_points[:, 1], radar_points[:, 0], c="blue", marker="x", s=30, label="radar targets"
-    )
+    axs[2].scatter(radar_points[:, 1], radar_points[:, 0], c="blue", marker="x", s=30, label="radar targets")
 
     axs[2].set_title("Other sensors")
     axs[2].axis("equal")
-    axs[2].set_yticklabels([])
-    axs[2].set_xticklabels([])
+    axs[2].set_xticks([])
+    axs[2].set_yticks([])
     axs[2].set_xlim([x_min, x_max])
     axs[2].set_ylim([y_min, y_max])
     axs[2].legend(fontsize=10, markerscale=1, loc="upper right")
@@ -103,8 +106,8 @@ def draw_scene_3D(data):
         mask = labels == l
         pl.add_points(
             points[mask],
-            point_size=2.5,
-            color=COLOR_MAP_3D[l],
+            point_size=3,
+            color=COLOR_MAP[l],
             render_points_as_spheres=True,
             show_scalar_bar=False,
         )

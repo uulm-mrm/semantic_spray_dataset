@@ -1,7 +1,5 @@
 tmp/
 data/
-*.png
-*.jpeg
 **tmp.**
 **tmp/**
 **tmp_**

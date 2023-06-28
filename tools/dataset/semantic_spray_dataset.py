@@ -80,16 +80,23 @@ class SemanticSprayDataset(torch_data.Dataset):
         data["camera_image"] = camera_image
 
         # ---------- metadata ----------
-        data["metadata"] = {"scene_path": scene_path, "scan_id": scan_id}
+        with open(os.path.join(scene_path, "metadata.txt")) as file:
+            text_infos = [line.rstrip("\n") for line in file]
+        keys = text_infos[0].split(",")
+        vals = text_infos[1].split(",")
+        assert len(keys) == len(vals)
+        metadata = {}
+        for k, v in zip(keys, vals):
+            metadata[k] = v
 
-
+        data["infos"] = {"scene_path": scene_path, "scan_id": scan_id, "metadata": metadata}
         return data
-    
+
     def ego_box_filter(self, points):
         SIZE = 2
         ego_mask = (np.abs(points[:, 0]) < SIZE) & (np.absolute(points[:, 1]) < SIZE)
         return ~ego_mask
-    
+
     def __len__(self):
         return len(self.sample_id_list)
 
