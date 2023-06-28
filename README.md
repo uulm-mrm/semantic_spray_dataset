@@ -123,7 +123,7 @@ ___
   <details>
   <summary>Image result:</summary>
     <div align="center">
-    <img style="width:350px" src="img/2d_plot.png">  
+    <img style="width:500px" src="img/2d_plot.png">  
     </div>
   </details>
 
@@ -134,7 +134,7 @@ ___
   <details>
   <summary>Image result:</summary>
     <div align="center">
-    <img style="width:350px" src="img/3d_plot.png">  
+    <img style="width:500px" src="img/3d_plot.png">  
     </div>
   </details>
 
