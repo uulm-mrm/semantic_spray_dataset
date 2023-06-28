@@ -1,14 +1,10 @@
-import torch
+from pathlib import Path
 import numpy as np
 import matplotlib.pyplot as plt
-import os
-from pathlib import Path
 from PIL import ImageColor
-import open3d
-import open3d as o3d
+import pyvista as pv
 
-COLOR_MAP_2D = {0: "#CFCFCF", 1: "#1B3FAB", 2: "#DC143C"}  # 0: background, 1: foreground, 2: noise
-COLOR_MAP_3D = {0: "#939393", 1: "#1B3FAB", 2: "#DC143C"}  # 0: background, 1: foreground, 2: noise
+COLOR_MAP = {0: "#000000", 1: "#6DA3FD", 2: "#D34949"}  # 0: background, 1: foreground, 2: noise
 LABEL_NAME_MAP = {0: "background", 1: "foreground", 2: "noise"}
 
 
@@ -30,7 +26,6 @@ def rgb_to_norm(color, max_val=255, bgr=False):
 
 
 def map_label_to_color(labels, plot_type="2D"):
-    COLOR_MAP = COLOR_MAP_2D if plot_type == "2D" else COLOR_MAP_3D
     label_colors = []
     for curr_label in labels:
         label_colors.append(hex2rgb(COLOR_MAP[curr_label]))
@@ -38,111 +33,16 @@ def map_label_to_color(labels, plot_type="2D"):
     return label_colors
 
 
-def draw_scene_3D_sphere(data):
-    points = data["points"]
-    labels = data["labels"]
-    colors = map_label_to_color(labels, plot_type="3D")
-
-    vis = open3d.visualization.Visualizer()
-    vis.create_window(width=1250, height=1000)
-    vis.get_render_option().point_size = 3.0
-    vis.get_render_option().background_color = hex2rgb("#f6faff")
-
-    # pts = open3d.geometry.PointCloud()
-    # pts.points = open3d.utility.Vector3dVector(points[:, :3])
-    # vis.add_geometry(pts)
-    # pts.colors = open3d.utility.Vector3dVector(colors)
-    spheres = []
-    for i in range(len(points)):
-        sphere = o3d.geometry.TriangleMesh.create_sphere(radius=0.1)
-        sphere.translate(points[i, :3])
-        # sphere.paint_uniform_color(point_cloud[i, 3:6] / 255.0)
-        spheres.append(sphere)
-        vis.add_geometry(sphere)
-
-
-    vis.run()
-    vis.destroy_window()
-
-
-def save_scene_3D(data, save_path, camera_settings, scan_id, save=True):
-    points = data["points"]
-    labels = data["labels"]
-    colors = map_label_to_color(labels, plot_type="3D")
-
-    vis = open3d.visualization.Visualizer()
-    vis.create_window(width=1250, height=1000)
-
-    pts = open3d.geometry.PointCloud()
-    pts.points = open3d.utility.Vector3dVector(points[:, :3])
-    vis.add_geometry(pts)
-    pts.colors = open3d.utility.Vector3dVector(colors)
-
-    assert os.path.isfile(camera_settings)
-    param = open3d.io.read_pinhole_camera_parameters(camera_settings)
-    ctr = vis.get_view_control()
-    ctr.convert_from_pinhole_camera_parameters(param)
-    vis.poll_events()
-    vis.update_renderer()
-
-    vis.run()
-    if save:
-        image = vis.capture_screen_float_buffer(True)
-        image = np.asarray(image)
-        plt.figure(figsize=(100, 100))
-        plt.imshow(image)
-        plt.axis("off")
-        # plt.colorbar()
-        filename = os.path.join(save_path, scan_id + ".jpg")
-        plt.savefig(filename, bbox_inches="tight")
-        plt.clf()
-    vis.destroy_window()
-
-
-def draw_scene_3D(data, save=True):
-    points = data["points"]
-    labels = data["labels"]
-    colors = map_label_to_color(labels, plot_type="3D")
-
-    vis = open3d.visualization.Visualizer()
-    vis.create_window(width=1250, height=1000)
-
-    pts = open3d.geometry.PointCloud()
-    pts.points = open3d.utility.Vector3dVector(points[:, :3])
-    vis.add_geometry(pts)
-    pts.colors = open3d.utility.Vector3dVector(colors)
-
-    # assert os.path.isfile(camera_settings)
-    # param = open3d.io.read_pinhole_camera_parameters(camera_settings)
-    # ctr = vis.get_view_control()
-    # ctr.convert_from_pinhole_camera_parameters(param)
-    # vis.poll_events()
-    # vis.update_renderer()
-
-    vis.run()
-    # if save:
-    #     image = vis.capture_screen_float_buffer(True)
-    #     image = np.asarray(image)
-    #     plt.figure(figsize=(100, 100))
-    #     plt.imshow(image)
-    #     plt.axis("off")
-    #     # plt.colorbar()
-    #     filename = os.path.join(save_path, scan_id + ".jpg")
-    #     plt.savefig(filename, bbox_inches="tight")
-    #     plt.clf()
-    vis.destroy_window()
-
-
 def draw_scene_2D(data, save_fig=True, save_path="../output", fig_name="semantic_scene_2d"):
     # ----- params ------
-    val = 35
-    x_min, x_max = -val, val
-    y_min, y_max = -val, val
-    point_size = 80
+    x_min, x_max = -10, 10
+    y_min, y_max = -30, 30
+    point_size = 3
 
     # ----- plot camera image -----
-    fig, axs = plt.subplots(2, 1, figsize=(30, 30))
+    fig, axs = plt.subplots(3, 1, figsize=(8, 12))
     axs[0].imshow(data["camera_image"])
+    axs[0].set_title("Camera Image")
     axs[0].axis("off")
     axs[0].axis("equal")
 
@@ -155,30 +55,66 @@ def draw_scene_2D(data, save_fig=True, save_path="../output", fig_name="semantic
         axs[1].scatter(
             points[mask, 1], points[mask, 0], c=colors[mask], s=point_size, label=LABEL_NAME_MAP[label_id]
         )  # Note: flip x and y axis for visualization
+    axs[1].set_title("Semantic Labels (top-mounted LiDAR)")
     axs[1].axis("equal")
     axs[1].set_yticklabels([])
     axs[1].set_xticklabels([])
     axs[1].set_xlim([x_min, x_max])
     axs[1].set_ylim([y_min, y_max])
-    axs[1].legend(fontsize=40, markerscale=4, loc="upper right")
+    axs[1].legend(fontsize=10, markerscale=4, loc="upper right")
 
+    # ----- other sensors -----
+    points = data["points"]
+    ibeo_front = data["ibeo_front"]
+    ibeo_rear = data["ibeo_rear"]
+    radar_points = data["radar_points"]
+    axs[2].scatter(points[:, 1], points[:, 0], c="#DCDCDC", s=point_size, label="top-mounted LiDAR")
+    axs[2].scatter(
+        ibeo_front[:, 1], ibeo_front[:, 0], c="red", marker="o", s=point_size * 2, label="low-res front LiDAR"
+    )
+    axs[2].scatter(
+        ibeo_rear[:, 1], ibeo_rear[:, 0], c="green", marker="o", s=point_size * 2, label="low-res rear LiDAR"
+    )
+    axs[2].scatter(
+        radar_points[:, 1], radar_points[:, 0], c="blue", marker="x", s=30, label="radar targets"
+    )
+
+    axs[2].set_title("Other sensors")
+    axs[2].axis("equal")
+    axs[2].set_yticklabels([])
+    axs[2].set_xticklabels([])
+    axs[2].set_xlim([x_min, x_max])
+    axs[2].set_ylim([y_min, y_max])
+    axs[2].legend(fontsize=10, markerscale=1, loc="upper right")
     fig.tight_layout()
-    if not save_fig:
-        plt.show()
-    else:
-        save_path_fig = Path(save_path)
-        save_path_fig.mkdir(parents=True, exist_ok=True)
-        save_path_fig = save_path_fig / (fig_name + ".png")
-        plt.savefig(save_path_fig)
-        print("Figure saved in: ", save_path_fig)
+    plt.show()
     plt.close("all")
+
+
+def draw_scene_3D(data):
+    points = data["points"][:, :3]
+    labels = data["labels"]
+    windows_size = [1000, 1000]
+    pl = pv.Plotter(window_size=windows_size, lighting="three lights", off_screen=False, polygon_smoothing=True)
+    pl.set_background("#dee5ef")
+
+    unique_labels = np.unique(labels)
+    for l in unique_labels:
+        mask = labels == l
+        pl.add_points(
+            points[mask],
+            point_size=2.5,
+            color=COLOR_MAP_3D[l],
+            render_points_as_spheres=True,
+            show_scalar_bar=False,
+        )
+    pl.show()
 
 
 def visualize_scene(data, plot_type="2D"):
     if plot_type == "2D":
         draw_scene_2D(data)
     elif plot_type == "3D":
-        # draw_scene_3D(data)
-        draw_scene_3D_sphere(data)
+        draw_scene_3D(data)
     else:
         return NotImplementedError

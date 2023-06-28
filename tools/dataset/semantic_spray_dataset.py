@@ -50,6 +50,11 @@ class SemanticSprayDataset(torch_data.Dataset):
         labels_path = os.path.join(scene_path, "labels", scan_id + ".label")
         labels = np.fromfile(labels_path, np.int32).reshape(-1)  # 0: background, 1: foreground (vehicle), 2: noise
 
+        # ego filter
+        box_mask = self.ego_box_filter(points)
+        points = points[box_mask]
+        labels = labels[box_mask]
+
         # sanity check
         assert points.shape[0] == labels.shape[0]
         data["points"] = points
@@ -77,8 +82,14 @@ class SemanticSprayDataset(torch_data.Dataset):
         # ---------- metadata ----------
         data["metadata"] = {"scene_path": scene_path, "scan_id": scan_id}
 
-        return data
 
+        return data
+    
+    def ego_box_filter(self, points):
+        SIZE = 2
+        ego_mask = (np.abs(points[:, 0]) < SIZE) & (np.absolute(points[:, 1]) < SIZE)
+        return ~ego_mask
+    
     def __len__(self):
         return len(self.sample_id_list)
 
