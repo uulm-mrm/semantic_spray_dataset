@@ -76,11 +76,14 @@ ___
   ```
 - In order to use the default train/test splits, the `ImageSet` folder should be located in `data/SemanticSprayDataset/ImageSets`. The final dataset structure shold be the following:
   ```text
-  |--- Crafter_dynamic
-  |--- Golf_dynamic
-  |--- ImageSets
-  |   |--- train.txt
-  |   |--- test.txt
+  .
+  ├── data
+  │   └── SemanticSprayDataset
+  │       └── ImageSets
+  │           ├── test.txt
+  │           └── train.txt
+  |       └── Crafter_dynamic
+  |       └── Golf_dynamic
   ```
 
 ## Exploring The Data
