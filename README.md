@@ -136,8 +136,27 @@ ___
  </div>
 
 
+
 ___
 
+## Related Work
+Together with the SemanticSpray dataset, we released our paper <a
+href="https://arxiv.org/abs/2305.16129"> Energy-based Detection of Adverse Weather Effects in LiDAR
+Data</a> (RA-L 2023). Our method can robustly detect adverse weather conditions like rain spray, rainfall, snow, and fog in LiDAR point clouds.
+Additionally, it achieves state-of-the-art results in the detection of weather effects unseen during
+training.
+<br>
+For more information visit:
+<a href="https://aldipiroli.github.io/projects/energy-based-adverse-weather-detection-lidar/index.html">Project
+Page</a> / <a href="https://arxiv.org/abs/2305.16129"> Arxiv </a> / <a
+href="https://www.youtube.com/watch?v=pCS3zABdaAU&embeds_referring_euri=https%3A%2F%2Faldipiroli.github.io%2F&source_ve_path=MjM4NTE&feature=emb_title">
+Video</a>
+<div align="center">
+  <img style="width:500px"  src="img/pub_ral2023.png">  
+</div>
+
+
+___
 ## Citation 
 If you find this dataset useful in your research, consider citing our work:
 
