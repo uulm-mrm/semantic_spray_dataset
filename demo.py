@@ -15,7 +15,7 @@ def visualize_data(dataset, args):
 def main():
     parser = argparse.ArgumentParser(description="arg parser")
     parser.add_argument("--data", type=str, required=True, help="path to the SemanticSpray dataset root folder")
-    parser.add_argument("--split", type=str, default="train", help="train/test")
+    parser.add_argument("--split", type=str, default="test", help="train/test")
     parser.add_argument("--plot", type=str, default="2D", help="2D/3D")
     parser.add_argument("--save", action="store_true", help="save scenes")
 
