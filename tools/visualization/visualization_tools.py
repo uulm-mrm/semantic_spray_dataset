@@ -244,7 +244,7 @@ def visualize_scene(data, plot_type="2D"):
 
 
 # ------------- 3D Box Plotting -----------------
-def plot_boxes(boxes, pl, line_width=2, color=[0, 0, 0.9]):
+def plot_boxes(boxes, pl, line_width=2, color=[0, 0.9, 0]):
     if isinstance(boxes, torch.Tensor):
         boxes = boxes.cpu().numpy()
 
