@@ -52,5 +52,6 @@ echo "Dataset extracted successfully!"
 unzip ../../storage/object_and_radar_labels.zip -d .
 cp -r radar_labels/* SemanticSprayDataset/
 cp -r object_labels/* SemanticSprayDataset/
-mv SemanticSprayDataset ..
+rsync -a --remove-source-files SemanticSprayDataset ..
+cd .. 
 rm -rf tmp/
