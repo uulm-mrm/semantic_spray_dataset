@@ -117,6 +117,10 @@ class SemanticSprayDataset(torch_data.Dataset):
         radar_points = np.fromfile(delphi_radar_path, np.float32).reshape(-1, 4)
         data["radar_points"] = radar_points
 
+        radar_labels_path = os.path.join(scene_path, "radar_labels", scan_id + ".npy")
+        radar_labels = np.load(radar_labels_path)
+        data["radar_labels"] = radar_labels
+
         # ---------- load camera image ----------
         camera_path = os.path.join(scene_path, "image_2", scan_id + ".jpg")
         camera_image = mpimg.imread(camera_path)

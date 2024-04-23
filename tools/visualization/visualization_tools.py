@@ -51,7 +51,7 @@ def plot_2d_camera_labels(data, axs):
                 # Add bounding box to the plot
                 bbox = patches.Polygon(
                     list(zip(x_values, y_values)),
-                    edgecolor="r",
+                    edgecolor=(0, 0.9, 0),
                     facecolor="none",
                     linewidth=2,
                 )
@@ -59,7 +59,7 @@ def plot_2d_camera_labels(data, axs):
     return axs
 
 
-def plot_3d_box_label(data, axs, extra_width=(0, 0, 0), color="b"):
+def plot_3d_box_label(data, axs, extra_width=(0, 0, 0), color=(0, 0.9, 0)):
     for instance in data["labels_3d"]:
         for box in instance["instances"]:
             if box["type"] == "3D_BOX":
@@ -113,7 +113,7 @@ def draw_scene_2D(data, save_fig=True, save_path="../output", fig_name="semantic
     point_size = 3
 
     # ----- plot camera image -----
-    fig, axs = plt.subplots(3, 1, figsize=(10, 15))
+    fig, axs = plt.subplots(4, 1, figsize=(10, 20))
     metadata = data["infos"]["metadata"]
     fig.suptitle(
         "object velocity: %s km/h, ego velocity: %s km/h, distance to object: %s m"
@@ -159,38 +159,25 @@ def draw_scene_2D(data, save_fig=True, save_path="../output", fig_name="semantic
     axs[1].set_ylim([y_min, y_max])
     axs[1].legend(fontsize=10, markerscale=4, loc="upper right")
 
-    # ----- other sensors -----
+    # ----- radar sensors -----
     points = data["points"]
-    ibeo_front = data["ibeo_front"]
-    ibeo_rear = data["ibeo_rear"]
     radar_points = data["radar_points"]
-    axs[2].scatter(points[:, 1], points[:, 0], c="#DCDCDC", s=point_size, label="top-mounted LiDAR")
-    axs[2].scatter(
-        ibeo_front[:, 1],
-        ibeo_front[:, 0],
-        c="red",
-        marker="o",
-        s=point_size * 2,
-        label="low-res front LiDAR",
-    )
-    axs[2].scatter(
-        ibeo_rear[:, 1],
-        ibeo_rear[:, 0],
-        c="green",
-        marker="o",
-        s=point_size * 2,
-        label="low-res rear LiDAR",
-    )
-    axs[2].scatter(
-        radar_points[:, 1],
-        radar_points[:, 0],
-        c="blue",
-        marker="x",
-        s=30,
-        label="radar targets",
-    )
+    radar_labels = data["radar_labels"]
+    axs[2].scatter(points[:, 0], points[:, 1], c="#DCDCDC", s=point_size, label="top-mounted LiDAR")
 
-    axs[2].set_title("Other sensors")
+    unique_labels = np.unique(radar_labels)
+    for curr_label in unique_labels:
+        mask = radar_labels == curr_label
+        axs[2].scatter(
+            radar_points[mask, 0],
+            radar_points[mask, 1],
+            # c="blue",
+            marker="x",
+            s=30,
+            label=curr_label,
+        )
+
+    axs[2].set_title("Radar Semantic Labels")
     axs[2].axis("equal")
     axs[2].set_xticks([])
     axs[2].set_yticks([])
@@ -199,8 +186,50 @@ def draw_scene_2D(data, save_fig=True, save_path="../output", fig_name="semantic
     axs[2].legend(fontsize=10, markerscale=1, loc="upper right")
     fig.tight_layout()
 
+    # ----- other sensors -----
+    points = data["points"]
+    ibeo_front = data["ibeo_front"]
+    ibeo_rear = data["ibeo_rear"]
+    radar_points = data["radar_points"]
+    axs[3].scatter(points[:, 0], points[:, 1], c="#DCDCDC", s=point_size, label="top-mounted LiDAR",zorder=0)
+    axs[3].scatter(
+        ibeo_front[:, 0],
+        ibeo_front[:, 1],
+        c="red",
+        marker="o",
+        s=point_size * 2,
+        label="low-res front LiDAR",
+        zorder=10
+    )
+    axs[3].scatter(
+        ibeo_rear[:, 0],
+        ibeo_rear[:, 1],
+        c="green",
+        marker="o",
+        s=point_size * 2,
+        label="low-res rear LiDAR",
+        zorder=20
+    )
+    axs[3].scatter(
+        radar_points[:, 0],
+        radar_points[:, 1],
+        c="blue",
+        marker="x",
+        s=30,
+        label="radar targets",
+        zorder=100
+    )
+    axs[3].set_title("Raw Sensor Outputs")
+    axs[3].axis("equal")
+    axs[3].set_xticks([])
+    axs[3].set_yticks([])
+    axs[3].set_xlim([x_min, x_max])
+    axs[3].set_ylim([y_min, y_max])
+    axs[3].legend(fontsize=10, markerscale=1, loc="upper right")
+    fig.tight_layout()
+
     if save_fig:
-        plt.savefig(os.path.join(fig_name))
+        plt.savefig(os.path.join(fig_name), dpi=150)
     else:
         plt.show()
     plt.close("all")
