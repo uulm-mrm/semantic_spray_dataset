@@ -62,6 +62,7 @@ An automatic download script is provided:
 git clone https://github.com/uulm-mrm/semantic_spray_dataset.git
 bash download.sh
 ```
+For the manual download of the data, a guide is also provided [here](docs/manual_download.md).
 
 ## Exploring The Data
  The sensor setup used for the recordings is the [following](https://www.fzd-datasets.de/spray/):
