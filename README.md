@@ -40,13 +40,13 @@ The following label types are provided:
 
 <div align="center">
 <figure class="half">
-    <img style="width:300px" src="img/teaser.png">  
+    <img style="width:500px" src="img/teaser.png">  
 </figure>
 </div>
 
 
 
-## Abstract
+<!-- ## Abstract
 <p style="text-align:justify;">
 Autonomous vehicles rely on camera, LiDAR, and radar sensors to navigate the environment. 
 Adverse weather conditions like snow, rain, and fog are known to be problematic for both camera and LiDAR-based perception systems.  
@@ -56,7 +56,7 @@ To address this limitation, we propose the SemanticSpray++ dataset, which provid
 In particular, we provide 2D bounding boxes for the camera image, 3D bounding boxes for the LiDAR point cloud, and semantic labels for the radar targets.
 By labeling all three sensor modalities, the SemanticSpray++ dataset offers a comprehensive test bed for analyzing the performance of different perception methods when vehicles travel on wet surface conditions. 
 </p>
-
+ -->
 
 
 ___
