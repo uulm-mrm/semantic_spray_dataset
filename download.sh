@@ -49,7 +49,7 @@ unzip SemanticSprayDataset_single_file.zip
 echo "Dataset extracted successfully!"
 
 # Download and extract object and radar labels (SemanticSpray++)
-unzip object_and_radar_labels.zip
+unzip ../../storage/object_and_radar_labels.zip -d .
 cp -r radar_labels/* SemanticSprayDataset/
 cp -r object_labels/* SemanticSprayDataset/
 mv SemanticSprayDataset ..
