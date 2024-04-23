@@ -12,9 +12,9 @@
 
 <div align="center">
 <figure class="half" style="display:flex">
-    <img style="width:200px" src="img/teaser_0.gif">  
-    <img style="width:200px" src="img/teaser_1.gif">  
-    <img style="width:200px" src="img/teaser_2.gif">
+    <img style="width:100px" src="img/teaser_0.gif">  
+    <img style="width:100px" src="img/teaser_1.gif">  
+    <img style="width:100px" src="img/teaser_2.gif">
 </figure>
 </div>
 
