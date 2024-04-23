@@ -12,13 +12,17 @@
 
 </div>
 
-<div align="center">
+|  ![](img/teaser_0.gif)  |  ![](img/teaser_1.gif)  | ![](img/teaser_2.gif)   |
+|---|---|---|
+
+
+<!-- <div align="center">
 <figure class="half">
     <img style="width:150px" src="img/teaser_0.gif">  
     <img style="width:150px" src="img/teaser_1.gif">  
     <img style="width:150px" src="img/teaser_2.gif">
 </figure>
-</div>
+</div> -->
 
 ## News
 - **2024-04-21**: The SemanticSpray++ dataset is accepted at IV2024. Here 2D camera boxes, 3D LiDAR boxes and radar semantic labels are additionally provided.
