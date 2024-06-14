@@ -1,11 +1,13 @@
-import numpy as np
+import json
 import os
-import torch.utils.data as torch_data
+
 import matplotlib.image as mpimg
+import numpy as np
+import torch.utils.data as torch_data
 
 
 class SemanticSprayDataset(torch_data.Dataset):
-    def __init__(self, root_path, split="train"):
+    def __init__(self, root_path, split="test"):
         # ----- parse input parameters -------
         self.root_path = root_path
         assert os.path.isdir(self.root_path)
@@ -17,7 +19,7 @@ class SemanticSprayDataset(torch_data.Dataset):
         self.load_camera = True
 
         # ------- get data splits -------
-        split_dir = os.path.join(self.root_path, "ImageSets", self.mode + ".txt")
+        split_dir = os.path.join(self.root_path, "ImageSets++", self.mode + ".txt")
         assert os.path.isfile(split_dir)
         scenes_list = [x.strip() for x in open(split_dir).readlines()]
         self.sample_id_list = self.get_data_samples(scenes_list)
@@ -36,6 +38,43 @@ class SemanticSprayDataset(torch_data.Dataset):
                 scan_id = curr_id.split(".")[0]
                 all_samples.append(os.path.join(self.root_path, sample_id, scan_id))
         return all_samples
+
+    def load_3d_box_labels(self, scene_path, scan_id):
+        labels_path = os.path.join(scene_path, "object_labels", "lidar")
+        if os.path.isdir(labels_path):
+            with open(os.path.join(labels_path, scan_id + ".json")) as f:
+                data = json.load(f)
+                return data
+        else:
+            return None
+
+    def load_2d_box_labels(self, scene_path, scan_id):
+        labels_path = os.path.join(scene_path, "object_labels", "camera")
+        if os.path.isdir(labels_path):
+            with open(os.path.join(labels_path, scan_id + ".json")) as f:
+                data = json.load(f)
+                return data
+        else:
+            return None
+
+    def get_3D_boxes_openPCDet_format(self, labels_3d):
+        """
+        Convert labels to the OpenPCDet format:
+        ---
+        Output: [[x, y, z, dx, dy, dz, rotation], [....]] Nx7
+        """
+        if labels_3d is None:
+            return None
+        
+        boxes_3d = []
+        for curr_instance in labels_3d[0]["instances"]:
+            center3D = curr_instance["contour"]["center3D"]
+            rotation3D = curr_instance["contour"]["center3D"]
+            size3D = curr_instance["contour"]["size3D"]
+            curr_box = [center3D["x"], center3D["y"], center3D["z"], size3D["x"], size3D["y"], size3D["z"], np.deg2rad(rotation3D["z"])]
+            boxes_3d.append(curr_box)
+        boxes_3d = np.array(boxes_3d)
+        return boxes_3d
 
     def load_data(self, scene_path, scan_id):
         assert os.path.isdir(scene_path), print(scene_path)
@@ -60,6 +99,10 @@ class SemanticSprayDataset(torch_data.Dataset):
         data["points"] = points
         data["labels"] = labels
 
+        # load 3D box labels (if present):
+        data["labels_3d"] = self.load_3d_box_labels(scene_path, scan_id)
+        data["boxes_3d"] = self.get_3D_boxes_openPCDet_format(data["labels_3d"])
+
         # ---------- load low resolution LiDARs point cloud ----------
         ibeo_front_path = os.path.join(scene_path, "ibeo_front", scan_id + ".bin")
         ibeo_front = np.fromfile(ibeo_front_path, np.float32).reshape(-1, 4)
@@ -74,10 +117,17 @@ class SemanticSprayDataset(torch_data.Dataset):
         radar_points = np.fromfile(delphi_radar_path, np.float32).reshape(-1, 4)
         data["radar_points"] = radar_points
 
+        radar_labels_path = os.path.join(scene_path, "radar_labels", scan_id + ".npy")
+        radar_labels = np.load(radar_labels_path)
+        data["radar_labels"] = radar_labels
+
         # ---------- load camera image ----------
         camera_path = os.path.join(scene_path, "image_2", scan_id + ".jpg")
         camera_image = mpimg.imread(camera_path)
         data["camera_image"] = camera_image
+
+        # load 2D box labels (if present):
+        data["labels_2d"] = self.load_2d_box_labels(scene_path, scan_id)
 
         # ---------- metadata ----------
         with open(os.path.join(scene_path, "metadata.txt")) as file:
