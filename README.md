@@ -1,5 +1,3 @@
-![ral2024](https://github.com/uulm-mrm/semantic_spray_dataset/assets/25965474/53ddbfb3-a97a-4ffe-9d60-f9ae34957f41)<div align="center">   
-
 # SemanticSpray Dataset
 
 <a href="https://semantic-spray-dataset.github.io/"><img src="https://img.shields.io/badge/Project-Page-green"></a>
@@ -127,6 +125,8 @@ For more information visit:
 Page</a> / <a href="https://arxiv.org/abs/2406.09906"> Arxiv </a> / <a
 href="https://www.youtube.com/watch?v=DVdKOYepDmU">
 Video</a>
+
+
 
 
 #### Energy-based Detection of Adverse Weather Effects in LiDAR Data
