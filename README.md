@@ -1,4 +1,4 @@
-<div align="center">   
+![ral2024](https://github.com/uulm-mrm/semantic_spray_dataset/assets/25965474/53ddbfb3-a97a-4ffe-9d60-f9ae34957f41)<div align="center">   
 
 # SemanticSpray Dataset
 
@@ -120,6 +120,16 @@ ___
 ___
 
 ## Related Work
+#### Label-Efficient Semantic Segmentation of LiDAR Point Clouds in Adverse Weather Conditions
+Our approach for label efficient semantic segmentation can learn to segment point clouds in adverse weather using only few labeled scans (e.g., 1, 5, 10). 
+For more information visit:
+<a href="https://aldipiroli.github.io/projects/label-efficient-semantic-segm/index.html">Project
+Page</a> / <a href="https://arxiv.org/abs/2406.09906"> Arxiv </a> / <a
+href="https://www.youtube.com/watch?v=DVdKOYepDmU">
+Video</a>
+
+
+#### Energy-based Detection of Adverse Weather Effects in LiDAR Data
 Together with the SemanticSpray dataset, we released our paper <a
 href="https://arxiv.org/abs/2305.16129"> Energy-based Detection of Adverse Weather Effects in LiDAR
 Data</a> (RA-L 2023). Our method can robustly detect adverse weather conditions like rain spray, rainfall, snow, and fog in LiDAR point clouds.
@@ -134,7 +144,6 @@ Video</a>
 <div align="center">
   <img style="width:500px"  src="img/pub_ral2023.png">  
 </div>
-
 
 ___
 ## Citation 
