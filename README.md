@@ -1,3 +1,5 @@
+<div align="center">   
+    
 # SemanticSpray Dataset
 
 <a href="https://semantic-spray-dataset.github.io/"><img src="https://img.shields.io/badge/Project-Page-green"></a>
@@ -118,21 +120,22 @@ ___
 ___
 
 ## Related Work
-#### Label-Efficient Semantic Segmentation of LiDAR Point Clouds in Adverse Weather Conditions
+#### Label-Efficient Semantic Segmentation of LiDAR Point Clouds in Adverse Weather Conditions [RA-L 2024]
 Our approach for label efficient semantic segmentation can learn to segment point clouds in adverse weather using only few labeled scans (e.g., 1, 5, 10). 
 For more information visit:
 <a href="https://aldipiroli.github.io/projects/label-efficient-semantic-segm/index.html">Project
 Page</a> / <a href="https://arxiv.org/abs/2406.09906"> Arxiv </a> / <a
 href="https://www.youtube.com/watch?v=DVdKOYepDmU">
 Video</a>
+<div align="center">
+  <img style="width:500px"  src="img/pub_ral2024.jpg">  
+</div>
 
 
 
 
-#### Energy-based Detection of Adverse Weather Effects in LiDAR Data
-Together with the SemanticSpray dataset, we released our paper <a
-href="https://arxiv.org/abs/2305.16129"> Energy-based Detection of Adverse Weather Effects in LiDAR
-Data</a> (RA-L 2023). Our method can robustly detect adverse weather conditions like rain spray, rainfall, snow, and fog in LiDAR point clouds.
+#### Energy-based Detection of Adverse Weather Effects in LiDAR Data [RA-L 2023]
+Our method can robustly detect adverse weather conditions like rain spray, rainfall, snow, and fog in LiDAR point clouds.
 Additionally, it achieves state-of-the-art results in the detection of weather effects unseen during
 training.
 <br>
