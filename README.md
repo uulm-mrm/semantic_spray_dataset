@@ -128,7 +128,7 @@ Page</a> / <a href="https://arxiv.org/abs/2406.09906"> Arxiv </a> / <a
 href="https://www.youtube.com/watch?v=DVdKOYepDmU">
 Video</a>
 <div align="center">
-  <img style="width:500px"  src="img/pub_ral2024.jpg">  
+  <img style="width:500px"  src="img/ral2024.jpg">  
 </div>
 
 
