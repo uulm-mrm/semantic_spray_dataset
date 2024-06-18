@@ -8,7 +8,7 @@
 <a href="https://paperswithcode.com/dataset/semanticspray-dataset"><img src="https://img.shields.io/badge/PapersWith-Code-lightblue"></a>
 
 <a href="https://arxiv.org/abs/2305.16129"><img src="https://img.shields.io/badge/ArXiv-SemanticSpray-8A2BE2"></a> 
-<a href=""><img src="https://img.shields.io/badge/ArXiv-SemanticSpray++-purple"></a> 
+<a href="https://arxiv.org/abs/2406.09945"><img src="https://img.shields.io/badge/ArXiv-SemanticSpray++-purple"></a> 
 
 </div>
 
