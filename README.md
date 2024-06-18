@@ -27,7 +27,7 @@
 ## News
 - **2024-04-21**: The **SemanticSpray++** dataset is accepted at IV2024. Here 2D camera boxes, 3D LiDAR boxes and radar semantic labels are additionally provided (<a href="https://arxiv.org/abs/2406.09945">Arxiv</a>).
 
-- **2023-07-01**: The **SematnicSpray** dataset is released as part of our RA-L / ICRA-2024 paper, providing for the LiDAR point cloud (<a href="https://arxiv.org/abs/2305.16129">Arxiv</a>).
+- **2023-07-01**: The **SematnicSpray** dataset is released as part of our RA-L / ICRA-2024 paper, providing semantic labels for the LiDAR point cloud (<a href="https://arxiv.org/abs/2305.16129">Arxiv</a>).
 
 ## TL;DR
 The SemanticSpray dataset contains scenes in wet surface conditions captured by Camera, LiDAR, and Radar. 
