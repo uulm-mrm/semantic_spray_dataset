@@ -20,7 +20,14 @@ urls=(
 # Download files into specified directory with original filenames
 echo "Downloading files into '$download_dir/' directory..."
 for url in "${urls[@]}"; do
-    wget --content-disposition -P "$download_dir" "$url"
+    success=false
+    while [ $success == false ]; do
+        if wget --content-disposition -P "$download_dir" "$url"; then
+            success=true
+        else
+            echo "Download failed. Retrying..."
+        fi
+    done
 done
 
 # Change working directory to the download directory
