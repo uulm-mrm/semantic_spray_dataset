@@ -19,7 +19,7 @@ class SemanticSprayDataset(torch_data.Dataset):
         self.load_camera = True
 
         # ------- get data splits -------
-        split_dir = os.path.join(self.root_path, "ImageSets++", self.mode + ".txt")
+        split_dir = os.path.join("ImageSets/ImageSets++", self.mode + ".txt")
         assert os.path.isfile(split_dir)
         scenes_list = [x.strip() for x in open(split_dir).readlines()]
         self.sample_id_list = self.get_data_samples(scenes_list)
