@@ -16,7 +16,7 @@
     ```bash 
     $ unzip SemanticSprayDataset_single_file.zip
     ```
-- The radar semantic labels and object labels (camera and LiDAR) are stored in `storage/object_and_radar_labels.zip`. Extract the folders and place them inside the previously downloaded folder. 
+- The radar semantic labels and object labels (camera and LiDAR) are [stored](../storage/object_and_radar_labels.zip) in `storage/object_and_radar_labels.zip`. Extract the folders and place them inside the previously downloaded folder. 
 - The extracted dataset should have a structure like this: 
   ```text
     ├── data
